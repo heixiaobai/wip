@@ -1,0 +1,11 @@
+[Unit]
+Description=White IP
+
+[Service]
+Type=simple
+ExecStart=@WIP_PATH_BIN@
+KillSignal=SIGINT
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target

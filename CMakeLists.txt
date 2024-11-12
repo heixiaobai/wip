@@ -1,0 +1,34 @@
+cmake_minimum_required(VERSION 3.13)
+project(wip NONE)
+
+set(CPACK_SET_DESTDIR ON)
+set(CPACK_PACKAGE_NAME "wip")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "white ip server and client from python3 aaa")
+set(CPACK_PACKAGE_DESCRIPTION "white ip server and client from python3 bbb")
+
+set(CPACK_PACKAGE_VERSION "0.1")
+
+set(CMAKE_INSTALL_PREFIX "")
+set(WIP_DIR_BIN ${CMAKE_INSTALL_PREFIX}/usr/bin)
+set(WIP_PATH_BIN ${WIP_DIR_BIN}/wip)
+
+configure_file(
+    ${CMAKE_SOURCE_DIR}/wip.service.in
+    ${CMAKE_BINARY_DIR}/wip.service
+)
+
+install(PROGRAMS src/wip.py DESTINATION ${WIP_DIR_BIN} RENAME wip
+        PERMISSIONS OWNER_READ OWNER_EXECUTE)
+install(FILES src/wip.conf DESTINATION etc
+        PERMISSIONS OWNER_READ OWNER_WRITE)
+install(FILES ${CMAKE_BINARY_DIR}/wip.service DESTINATION /usr/lib/systemd/system
+        PERMISSIONS OWNER_READ OWNER_WRITE)
+
+set(CPACK_RPM_PACKAGE_LICENSE "MIT")
+set(CPACK_RPM_PACKAGE_ARCHITECTURE "noarch")
+set(CPACK_RPM_PACKAGE_RELEASE 1)
+set(CPACK_RPM_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_RPM_PACKAGE_RELEASE}.${CPACK_RPM_PACKAGE_ARCHITECTURE}.rpm")
+
+set(CPACK_GENERATOR "RPM")
+
+include(CPack)
